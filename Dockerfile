@@ -19,7 +19,8 @@ RUN apk add --no-cache \
     tzdata 
 
 COPY rootfs /
-RUN /opt/bullabs/scripts/bullabs-setup.sh
+RUN chmod +x /opt/bullabs/scripts/bullabs-setup.sh \
+    && /opt/bullabs/scripts/bullabs-setup.sh
 
 CMD [ "/bin/bash" ]
 
