@@ -1,9 +1,9 @@
-FROM alpine:3.9
+FROM alpine:3.10
 LABEL maintainer "Bullabs <containers@bullabs.dev>"
 
 ENV HOME="/" \
     OS_ARCH="amd64" \
-    OS_FLAVOUR="alpine-3.9" \
+    OS_FLAVOUR="alpine-3.10" \
     OS_NAME="linux" \
     BULLABS_APP_NAME="alpine-base"
 
