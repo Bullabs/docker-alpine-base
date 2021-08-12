@@ -9,7 +9,7 @@ registries:
     type: docker-registry
     url: ghcr.io
     username: hobbs1210
-    password: ${{ secrets.GITHUB_TOKEN }}
+    password: ${{secrets.GH_PACKAGES_KEY}}
 updates:
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/" # Location of package manifests
