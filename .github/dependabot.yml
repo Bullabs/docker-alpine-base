@@ -5,9 +5,9 @@
 
 version: 2
 registries:
-  github-packages: # Define access for a private registry 
+  docker-github: # Define access for a private registry 
     type: docker-registry
-    url: docker.pkg.github.com
+    url: ghcr.io
     username: hobbs1210
     password: ${{ secrets.GITHUB_TOKEN }}
 updates:
