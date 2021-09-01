@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Environment configuration for redis
+# Environment configuration
 
 export BULLABS_ROOT_DIR="/opt/bullabs"
 export BULLABS_VOLUME_DIR="/bullabs"
