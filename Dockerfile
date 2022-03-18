@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.15.1
 LABEL maintainer "Bullabs <containers@bullabs.dev>"
 
 ENV HOME="/" \
