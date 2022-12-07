@@ -157,66 +157,6 @@ get_total_memory() {
 }
 
 ########################
-# Get machine size depending on specified memory
-# Globals:
-#   None
-# Arguments:
-#   None
-# Flags:
-#   --memory - memory size (optional)
-# Returns:
-#   Detected instance size
-#########################
-get_machine_size() {
-    local memory=""
-    # Validate arguments
-    while [[ "$#" -gt 0 ]]; do
-        case "$1" in
-            --memory)
-                shift
-                memory="${1:?missing memory}"
-                ;;
-            *)
-                echo "Invalid command line flag $1" >&2
-                return 1
-                ;;
-        esac
-        shift
-    done
-    if [[ -z "$memory" ]]; then
-        debug "Memory was not specified, detecting available memory automatically"
-        memory="$(get_total_memory)"
-    fi
-    sanitized_memory=$(convert_to_mb "$memory")
-    if [[ "$sanitized_memory" -gt 26000 ]]; then
-        echo 2xlarge
-    elif [[ "$sanitized_memory" -gt 13000 ]]; then
-        echo xlarge
-    elif [[ "$sanitized_memory" -gt 6000 ]]; then
-        echo large
-    elif [[ "$sanitized_memory" -gt 3000 ]]; then
-        echo medium
-    elif [[ "$sanitized_memory" -gt 1500 ]]; then
-        echo small
-    else
-        echo micro
-    fi
-}
-
-########################
-# Get machine size depending on specified memory
-# Globals:
-#   None
-# Arguments:
-#   $1 - memory size (optional)
-# Returns:
-#   Detected instance size
-#########################
-get_supported_machine_sizes() {
-    echo micro small medium large xlarge 2xlarge
-}
-
-########################
 # Convert memory size from string to amount of megabytes (i.e. 2G -> 2048)
 # Globals:
 #   None
@@ -238,7 +178,6 @@ convert_to_mb() {
     fi
     echo "$amount"
 }
-
 
 #########################
 # Redirects output to /dev/null if debug mode is disabled
@@ -347,4 +286,35 @@ generate_random_string() {
 generate_md5_hash() {
   local -r str="${1:?missing input string}"
   echo -n "$str" | md5sum | awk '{print $1}'
+}
+
+########################
+# Create sha1 hash from a string
+# Arguments:
+#   $1 - string
+#   $2 - algorithm - 1 (default), 224, 256, 384, 512
+# Returns:
+#   sha1 hash - string
+#########################
+generate_sha_hash() {
+    local -r str="${1:?missing input string}"
+    local -r algorithm="${2:-1}"
+    echo -n "$str" | "sha${algorithm}sum" | awk '{print $1}'
+}
+
+########################
+# Converts a string to its hexadecimal representation
+# Arguments:
+#   $1 - string
+# Returns:
+#   hexadecimal representation of the string
+#########################
+convert_to_hex() {
+    local -r str=${1:?missing input string}
+    local -i iterator
+    local char
+    for ((iterator = 0; iterator < ${#str}; iterator++)); do
+        char=${str:iterator:1}
+        printf '%x' "'${char}"
+    done
 }
